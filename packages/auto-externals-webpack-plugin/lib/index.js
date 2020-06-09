@@ -28,25 +28,51 @@ class AutoExternalWebpackPlugin {
     });
 
     compiler.hooks.compilation.tap(PLUGIN_ID, (compilation) => {
-      HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tap(
+      HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tapAsync(
         PLUGIN_ID,
-        (assetsTags) => {
+        (data, cb) => {
+          const { assetTags } = data;
+
           const { options } = this;
           const objArr = Object.keys(options).map((key) => {
             return {
               tagName: 'script',
-              selfClose: false,
               attributes: {
                 type: 'text/javascript',
                 src: options[key].src,
+                head: true,
               },
             };
           });
 
-          return {
-            ...assetsTags,
-            body: [...objArr, ...assetsTags.body],
-          };
+          cb(null, {
+            ...data,
+            assetTags: {
+              ...assetTags,
+              scripts: [...assetTags.scripts, ...objArr],
+            },
+          });
+        }
+      );
+      HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tapAsync(
+        PLUGIN_ID,
+        (data, cb) => {
+          console.log(data);
+          let { bodyTags, headTags } = data;
+          bodyTags = bodyTags.filter((script) => {
+            const { attributes } = script;
+            if (attributes.head) {
+              delete attributes.head;
+              headTags.push(script);
+            }
+            return !attributes.head;
+          });
+
+          cb(null, {
+            ...data,
+            bodyTags,
+            headTags,
+          });
         }
       );
     });
