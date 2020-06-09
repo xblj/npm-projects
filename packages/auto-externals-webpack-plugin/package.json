@@ -16,5 +16,8 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
-  "gitHead": "528e9554ad4de5c5c176267f43b781c122b943a8"
+  "gitHead": "528e9554ad4de5c5c176267f43b781c122b943a8",
+  "dependencies": {
+    "html-webpack-plugin": "^4.3.0"
+  }
 }

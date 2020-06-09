@@ -1,4 +1,5 @@
 const ExternalPlugin = require('webpack/lib/ExternalModule');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const PLUGIN_ID = 'AutoExternalWebpackPlugin';
 
 class AutoExternalWebpackPlugin {
@@ -27,7 +28,7 @@ class AutoExternalWebpackPlugin {
     });
 
     compiler.hooks.compilation.tap(PLUGIN_ID, (compilation) => {
-      compilation.hooks.htmlWebpackPluginAlterAssetTags.tap(
+      HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tap(
         PLUGIN_ID,
         (assetsTags) => {
           const { options } = this;
