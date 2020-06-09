@@ -1,6 +1,6 @@
 {
   "name": "auto-externals-webpack-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha.0",
   "description": "自动向html文件中插入script标签",
   "author": "xb <906188578@qq.com>",
   "homepage": "",
@@ -15,5 +15,6 @@
   ],
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
-  }
+  },
+  "gitHead": "528e9554ad4de5c5c176267f43b781c122b943a8"
 }
